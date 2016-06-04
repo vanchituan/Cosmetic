@@ -1,0 +1,156 @@
+﻿
+@model DataLayer.ViewModel.Admin.Invoice.ListViewModel
+<div class="col-md-12">
+    <div class="col-md-6 text-left">
+        Hiện có <strong>@Model.Total</strong> hóa đơn ứng với các điều kiện tìm kiếm
+    </div>
+    <div class="col-md-6">
+        <label class="pull-right control-label">hóa đơn 1 trang</label>
+        <div class="col-md-4 pull-right">
+            <select id="ddlItemsPerPage" class="form-control">
+                <option selected>Mặc định</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+                <option value="35">35</option>
+                <option value="40">40</option>
+                <option value="45">45</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="javascript:Common.invoice.OrderBy('InvoiceId',@(Model.OrderBy == "InvoiceId" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Mã HĐ
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "InvoiceId" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "InvoiceId" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.invoice.OrderBy('ShipName',@(Model.OrderBy == "ShipName" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Người nhận
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "ShipName" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "ShipName" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.invoice.OrderBy('CreatedDate',@(Model.OrderBy == "CreatedDate" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Ngày đặt
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "CreatedDate" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "CreatedDate" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.invoice.OrderBy('ShipAddress',@(Model.OrderBy == "ShipAddress" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Địa chỉ
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "ShipAddress" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "ShipAddress" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.invoice.OrderBy('ShipMobile',@(Model.OrderBy == "ShipMobile" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Điện thoại
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "ShipMobile" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "ShipMobile" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.invoice.OrderBy('OrderId',@(Model.OrderBy == "OrderId" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Mã ĐH
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "OrderId" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "OrderId" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.invoice.OrderBy('PromotionName',@(Model.OrderBy == "PromotionName" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Khuyến mãi
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "PromotionName" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "PromotionName" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.invoice.OrderBy('Total',@(Model.OrderBy == "Total" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Tổng cộng
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "Total" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "Total" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr id="row_@item.InvoiceId">
+                <td>@item.InvoiceId</td>
+                <td>@item.ShipName</td>
+                <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.ShipAddress</td>
+                <td>@item.ShipMobile</td>
+                <td>@item.OrderId</td>
+                <td>@item.PromotionName</td>
+                <td>@item.Total.ToString("N0")</td>
+                <td>
+                    <i class="fa fa-expand fa-lg btnInvoiceDetail pointer" aria-hidden="true"
+                       data-id="@item.InvoiceId" title="Chi tiết HD"></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Raw(Ajax.Pager(
+            new Options
+            {
+                PageSize = Model.Items.PageSize,
+                TotalItemCount = Model.Items.TotalItemCount,
+                CurrentPage = Model.Items.PageNumber,
+                IsShowControls = true,
+                IsShowFirstLast = true,
+                LimitPage = 7,
+                Link = "javascript:void(0);",
+                OnClick = "Common.invoice.Paging({0})"
+            },
+            new AjaxOptions
+            {
+                UpdateTargetId = "invoiceList",
+                HttpMethod = "POST",
+                OnBegin = "Common.invoice.BeforeSend",
+                OnSuccess = "Common.invoice.SuccessForm"
+            }, new { controller = "Invoice", action = "InvoiceList", area = "Admin" }));
+
+
+<div id="modalConfirmYesNo" class="modal fade">
+    @{Html.RenderPartial("DetailInvoice", new DataLayer.ViewModel.Admin.Invoice.SearchingViewModel());}
+</div>

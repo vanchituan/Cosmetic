@@ -1,0 +1,62 @@
+﻿@model DataLayer.ViewModel.Admin.Product.SearchingViewModel
+
+@using (Ajax.BeginForm("ProductListForCustomOrder", "Product", null,
+                                                                new AjaxOptions
+                                                                {
+                                                                    HttpMethod = "POST",
+                                                                    OnBegin = "Common.product.BeforeSend",
+                                                                    OnSuccess = "Common.product.SuccessForm",
+                                                                    UpdateTargetId = "productList",
+                                                                        
+                                                                },
+                                                                new { @id = "frmProduct", @class = "form-horizontal multiple-controls" }))
+{
+    <div class="panel panel-info">
+        <div class="panel-heading">Tìm kiếm sản phẩm theo</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-3">Id</label>
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.ProductId, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-3">Tên SP</label>
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-3">Loại</label>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.CategoryId, Model.CategoryName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden">
+                    @Html.HiddenFor(model => model.PageCurrent)
+                    @Html.HiddenFor(model => model.OrderBy)
+                    @Html.HiddenFor(model => model.SortBy)
+                    @Html.HiddenFor(model => model.PageSize)
+                </div>
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="glyphicon glyphicon-search "></i> &nbsp; Tìm kiếm
+                        </button>
+
+                        <button type="reset" class="btn btn-default btn-sm" id="btnDelete">
+                            <i class="glyphicon glyphicon-refresh "></i> &nbsp; Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27B8BF1F-2C8A-425F-9750-E01D095FB0EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataLayer</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvcPaging, Version=2.1.4.31, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BachKhoa\BachKhoa\bin\MvcPaging.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CategoryModel.cs" />
+    <Compile Include="DataAccessObj\CategoryDao.cs" />
+    <Compile Include="DataAccessObj\ContactDao.cs" />
+    <Compile Include="DataAccessObj\ContentDao.cs" />
+    <Compile Include="DataAccessObj\CredentialDao.cs" />
+    <Compile Include="DataAccessObj\FeedbackDao.cs" />
+    <Compile Include="DataAccessObj\FooterDao.cs" />
+    <Compile Include="DataAccessObj\InvoiceDao.cs" />
+    <Compile Include="DataAccessObj\InvoiceDetailDao.cs" />
+    <Compile Include="DataAccessObj\MenuDao.cs" />
+    <Compile Include="DataAccessObj\OrderDao.cs" />
+    <Compile Include="DataAccessObj\OrderDetailDao.cs" />
+    <Compile Include="DataAccessObj\OrderStatusDao.cs" />
+    <Compile Include="DataAccessObj\ProductCategoryDao.cs" />
+    <Compile Include="DataAccessObj\ProductDao.cs" />
+    <Compile Include="DataAccessObj\PromotionDao.cs" />
+    <Compile Include="DataAccessObj\ReportDao.cs" />
+    <Compile Include="DataAccessObj\RoleDao.cs" />
+    <Compile Include="DataAccessObj\SlideDao.cs" />
+    <Compile Include="DataAccessObj\TagDao.cs" />
+    <Compile Include="DataAccessObj\UserDao.cs" />
+    <Compile Include="DataAccessObj\UserGroupDao.cs" />
+    <Compile Include="Framework\About.cs" />
+    <Compile Include="Framework\Category.cs" />
+    <Compile Include="Framework\Contact.cs" />
+    <Compile Include="Framework\Content.cs" />
+    <Compile Include="Framework\ContentTag.cs" />
+    <Compile Include="Framework\Credential.cs" />
+    <Compile Include="Framework\Feedback.cs" />
+    <Compile Include="Framework\Footer.cs" />
+    <Compile Include="Framework\Invoice.cs" />
+    <Compile Include="Framework\InvoiceDetail.cs" />
+    <Compile Include="Framework\Menu.cs" />
+    <Compile Include="Framework\MenuType.cs" />
+    <Compile Include="Framework\OnlineShopDBContext.cs" />
+    <Compile Include="Framework\Order.cs" />
+    <Compile Include="Framework\OrderDetail.cs" />
+    <Compile Include="Framework\OrderStatu.cs" />
+    <Compile Include="Framework\Product.cs" />
+    <Compile Include="Framework\ProductCategory.cs" />
+    <Compile Include="Framework\Promotion.cs" />
+    <Compile Include="Framework\Role.cs" />
+    <Compile Include="Framework\Slide.cs" />
+    <Compile Include="Framework\Tag.cs" />
+    <Compile Include="Framework\User.cs" />
+    <Compile Include="Framework\UserGroup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Admin\Invoice\ItemViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Invoice\ListViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Invoice\SearchingViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Order\ItemViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Order\ListViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Order\CartDetailViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Order\SearchingViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Product\ItemViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Product\ListViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Product\SearchingViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Report\ProfitViewModel.cs" />
+    <Compile Include="ViewModel\Admin\User\DistrictViewModel.cs" />
+    <Compile Include="ViewModel\Admin\User\ItemViewModel.cs" />
+    <Compile Include="ViewModel\Admin\User\ListViewModel.cs" />
+    <Compile Include="ViewModel\Admin\User\PrecinctViewModel.cs" />
+    <Compile Include="ViewModel\Admin\User\ProvinceViewModel.cs" />
+    <Compile Include="ViewModel\Admin\User\SearchingViewModel.cs" />
+    <Compile Include="ViewModel\ContentViewModel.cs" />
+    <Compile Include="ViewModel\OrderHisViewModel.cs" />
+    <Compile Include="ViewModel\ProductViewModel.cs" />
+    <Compile Include="ViewModel\RoleViewModel.cs" />
+    <Compile Include="ViewModel\TagDetailViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{d421a92d-06f7-4d87-9f2e-f24a561e514a}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\Client\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

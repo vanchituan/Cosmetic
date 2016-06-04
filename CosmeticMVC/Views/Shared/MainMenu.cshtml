@@ -1,0 +1,11 @@
+﻿@model List<DataLayer.Framework.Menu>
+
+<div class="menu">
+    <ul id="dc_mega-menu-orange" class="dc_mm-orange">
+        @foreach (var item in Model)
+        {
+            <li><a href="@item.Link">@item.Text</a></li>
+        }
+
+    </ul>
+</div>

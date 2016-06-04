@@ -1,0 +1,91 @@
+﻿@model List<DataLayer.Framework.Content>
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+    var listOther = (List<DataLayer.Framework.Content>)ViewBag.ListOther;
+
+}
+<div class="content">
+    <div class="content_top">
+        <div class="heading">
+            <h3>@ViewBag.CateName</h3>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-9">
+                @foreach (var item in Model)
+                {
+                    var link = "/tin-tuc/" + item.CategoryID + "/" + item.MetaTitle;
+                    <div class="image group">
+                        <div class="grid images_3_of_1">
+                            <a href="@link"><img src="@item.Image" alt="" /></a>
+                        </div>
+                        <div class="grid news_desc">
+                            <h3><a href="@link">@item.Name </a></h3>
+                            <h4>Ngày đăng : @item.CreatedDate @*by <span><a href="#">@item.CreatedBy</a></span>*@</h4>
+                            <p>@item.Description</p>
+
+                        </div>
+                    </div>
+                }
+                @if (ViewBag.TotalPage > 1)
+                {
+                    var pageDisplay = (int)ViewBag.MaxPage;
+                    int totalPage = (int)ViewBag.TotalPage;
+                    int currentPage = ((int)ViewBag.Page);
+
+                    // Create numeric links
+                    var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                    var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                    var link = ViewBag.CateID;
+
+                    <nav>
+                        <ul class="pagination">
+                            @if (currentPage > ViewBag.First)
+                            {
+                                <li><a href="@link?page=@ViewBag.First" title="Trang đầu" class="first"><i class="fa fa-angle-double-left"></i></a></li>
+                                <li>
+                                    <a href="@link?page=@ViewBag.Prev" title="Trang trước" class="prev"><i class="fa fa-angle-left"></i></a>
+                                </li>
+
+                            }
+                            @for (int i = startPageIndex; i <= endPageIndex; i++)
+                            {
+                                if (currentPage == i)
+                                {
+
+                                    <li> <a href="@link?page=@i" class="active" title="Trang @i">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="@link?page=@i" title="Trang @i" class="pos">@i</a></li>
+                                }
+                            }
+                            @if (currentPage < totalPage)
+                            {
+                                <li><a href="@link?page=@ViewBag.Next" class="next" title="Trang sau"><i class="fa fa-angle-right"></i></a></li>
+                                <li> <a href="@link?page=@ViewBag.Last" class="last" title="Trang cuối"><i class="fa fa-angle-double-right"></i></a></li>
+                            }
+
+                        </ul>
+                    </nav>
+
+                }
+            </div>
+
+            <div class="col-md-3">
+                <h2>Tin khác</h2>
+                <ul class="list-group">
+                    @foreach (var item in listOther)
+                    {
+                        var link = "/tin-tuc/" + item.CategoryID + "/" + item.MetaTitle;
+                        <li class="list-group-item"><a href="@link">@item.Name</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

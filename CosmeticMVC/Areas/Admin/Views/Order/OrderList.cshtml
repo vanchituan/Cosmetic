@@ -1,0 +1,137 @@
+﻿@model DataLayer.ViewModel.Admin.Order.ListViewModel
+
+<div class="col-md-12">
+    <div class="col-md-6 text-left">
+        Hiện có <strong>@Model.Total</strong> đơn hàng ứng với các điều kiện tìm kiếm
+    </div>
+    <div class="col-md-6">
+        <label class="pull-right control-label">đơn hàng 1 trang</label>
+        <div class="col-md-4 pull-right">
+            <select id="ddlItemsPerPage" class="form-control">
+                <option selected>Mặc định</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+                <option value="35">35</option>
+                <option value="40">40</option>
+                <option value="45">45</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="javascript:Common.order.OrderBy('OrderId',@(Model.OrderBy == "OrderId" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Mã ĐH
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "OrderId" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "OrderId" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>
+                <a href="javascript:Common.order.OrderBy('ShipName',@(Model.OrderBy == "ShipName" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Người nhận
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "ShipName" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "ShipName" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.order.OrderBy('CreatedDate',@(Model.OrderBy == "CreatedDate" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Ngày đặt
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "CreatedDate" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "CreatedDate" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.order.OrderBy('ShipAddress',@(Model.OrderBy == "ShipAddress" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Địa chỉ
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "ShipAddress" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "ShipAddress" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+
+            <th>
+                <a href="javascript:Common.order.OrderBy('StatusName',@(Model.OrderBy == "StatusName" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Trạng thái
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "StatusName" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "StatusName" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>
+                <a href="javascript:Common.order.OrderBy('Total',@(Model.OrderBy == "Total" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Tổng cộng
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "Total" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "Total" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+        <tr id="row_@item.OrderId">
+            <td>@item.OrderId</td>
+            <td>@item.ShipName</td>
+            <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+            <td>@item.ShipAddress</td>
+            <td>@item.StatusName</td>
+            <td>@item.Total.ToString("N0")</td>
+            <td>
+                <i class="fa fa-expand fa-lg btnOrderDetail pointer" aria-hidden="true"
+                   data-id="@item.OrderId" title="Chi tiết HD"></i>
+                &nbsp;
+                <i class="fa fa-print fa-lg pointer btnPrint" aria-hidden="true"
+                   title="In HD" data-id="@item.OrderId"></i>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Raw(Ajax.Pager(
+            new Options
+            {
+                PageSize = Model.Items.PageSize,
+                TotalItemCount = Model.Items.TotalItemCount,
+                CurrentPage = Model.Items.PageNumber,
+                IsShowControls = true,
+                IsShowFirstLast = true,
+                LimitPage = 7,
+                Link = "javascript:void(0);",
+                OnClick = "Common.order.Paging({0})"
+            },
+            new AjaxOptions
+            {
+                UpdateTargetId = "orderList",
+                HttpMethod = "POST",
+                OnBegin = "Common.order.BeforeSend",
+                OnSuccess = "Common.order.SuccessForm"
+            }, new { controller = "Order", action = "OrderList", area = "Admin" }));
+
+
+<div id="modalConfirmYesNo" class="modal fade">
+    @{Html.RenderPartial("DetailOrder", new DataLayer.ViewModel.Admin.Order.SearchingViewModel());}
+</div>

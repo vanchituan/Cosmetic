@@ -1,0 +1,46 @@
+﻿@model List<DataLayer.Framework.Menu>
+<script src="/Assets/Client/js/jquery-1.11.3.min.js"></script>
+<script src="/Assets/Client/js/bootstrap.min.js"></script>
+
+
+<div class="call">
+    <p><span>Bạn cần trợ giúp</span> hãy gọi cho chúng tôi <span class="number">1-22-3456789</span></span></p>
+</div>
+<div class="account_desc">
+
+    @{
+        var session = (UserLogin)Session[CommonConstant.UserSession];
+    }
+    @if (session == null)
+    {
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li><a href="@item.Link" target="@item.Target">@item.Text</a></li>
+            }
+
+        </ul>
+    }
+    else
+    {
+        <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                Xin chào : @session.Username
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="/thong-tin-ca-nhan/@session.UserID">Thông tin cá nhân</a></li>
+                <li><a href="/lich-su-mua-hang">Lịch sử mua hàng</a></li>
+                @if (session.GroupID == "MOD" || session.GroupID == "ADMIN")
+                {
+                    <li>@Html.ActionLink("Hệ thống", "Index", "Home", new { area="Admin"},null)</li>
+                }
+                <li>@Html.ActionLink("Thoát", "Logout", "User")</li>
+            </ul>
+        </div>
+    }
+
+</div>
+
+
+<div class="clear"></div>

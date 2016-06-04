@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "UpdateWareHouse";
+    Layout = "~/Areas/Admin/Views/Shared/BackendLayout.cshtml";
+}
+
+@section jsFooter{
+<script src="~/Assets/Admin/js/controller/RepositoryController.js"></script>
+    }
+<br />
+<div class="content">
+    <div class="row">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-2">Loại sản phẩm</label>
+                <div class="col-md-5">
+                    @Html.DropDownList("ddlCategory",null,new { @class="form-control"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Sản phẩm</label>
+                <div class="col-md-5">
+                    @Html.DropDownList("ddlProduct", new SelectList(new string[] { }), new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-5 col-md-offset-2">
+                    <input type="text" class="form-control" placeholder="Nhập số lượng" id="txtQuantity" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-5 col-md-offset-2">
+                    <input type="button" value="Nhập hàng" id="btnOK" class="btn btn-info" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="table-responsive" style="display:none">
+        
+            <h4>Thông tin sản phẩm hiện hành</h4>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>

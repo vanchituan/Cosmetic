@@ -1,0 +1,55 @@
+﻿@model IEnumerable<DataLayer.Framework.Product>
+@{
+    ViewBag.Title = "Các sản phẩm trong hệ thống";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+}
+
+@section jsFooter{
+    <link href="~/Assets/Client/css/Product.css" rel="stylesheet" />
+    <script src="~/Assets/Client/js/controller/ProductController.js"></script>
+}
+
+<div class="content">
+    @*<div class="content_top">
+            <h2>Tìm kiếm nâng cao</h2>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    @Html.DropDownList("ddlFilter",
+                               new List<SelectListItem>{
+                               new SelectListItem{ Text = "Chọn điều kiện tìm kiếm",Disabled = true ,Selected = true},
+                                        new SelectListItem{ Text = "Theo giá từ", Value = "0" },
+
+                           },
+                               new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>*@
+
+
+
+    <div class="content_top">
+        <div class="heading">
+            <h3>Các sản phẩm đang kinh doanh</h3>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div id="listProduct" class="section group">
+        @Html.Partial("ProductList", Model);
+
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <a href="/Product/Index?page=1" id="btnLoadMore" class="btn btn-info btn-block">Xem thêm @ViewBag.TotalProduct sản phẩm</a>
+        </div>
+        <div class="col-md-2">
+            
+        </div>
+    </div>
+</div>
+

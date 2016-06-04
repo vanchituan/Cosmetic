@@ -1,0 +1,44 @@
+﻿@model DataLayer.Framework.User
+@{
+    ViewBag.Title = "UserConfirm";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+}
+<div class="content">
+    <div class="alert alert-success">
+        Chúc mừng bạn dã đăng ký thành công !!
+    </div> 
+    <div class="section group">
+        <table class="table">
+            <tr>
+                <td>Tài khoản</td>
+                <td>@Model.UserName</td>
+            </tr>
+
+            <tr>
+                <td>Mật khẩu</td>
+                <td>@Model.Password</td>
+            </tr>
+
+            <tr>
+                <td>Tên người dùng</td>
+                <td>@Model.Name</td>
+            </tr>
+
+            <tr>
+                <td>Địa chỉ</td>
+                <td>@Model.Address</td>
+            </tr>
+
+            <tr>
+                <td>Điện thoại</td>
+                <td>@Model.Phone</td>
+            </tr>
+
+            <tr>
+                <td>Email</td>
+                <td>@Model.Email</td>
+            </tr>
+        </table>
+    </div> 
+</div>
+

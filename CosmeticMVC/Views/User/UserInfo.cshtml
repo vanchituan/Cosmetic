@@ -1,0 +1,95 @@
+﻿@model DataLayer.Framework.User
+@{
+    ViewBag.Title = "UserInfo";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+}
+
+@section jsFooter{
+    <link href="/Assets/Client/css/site-demos.css" rel="stylesheet" />
+    <script src="/Assets/Client/js/jquery.maskedinput.1.4.1.js"></script>
+    <script src="/Assets/Client/js/jquery.validate.min.js"></script>
+    <script src="/Assets/Client/js/additional-methods.min.js"></script>
+    <script src="/Assets/Admin/js/plugins/ckfinder/ckfinder.js"></script>
+<script src="/Assets/Admin/js/controller/CKController.js"></script>
+<script src="/Assets/Client/js/controller/ValidateController.js"></script>
+    <script src="/Assets/Client/js/controller/UserController.js"></script>
+}
+
+<div class="content">
+
+    <div class="form-horizontal">
+        <h2>Thông tin người dùng</h2>
+        @using (Html.BeginForm("Update", "User", FormMethod.Post))
+            {
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @id = "txtUsername", @disabled = "True" })
+                    @Html.ValidationMessageFor(model => model.UserName)
+                    <div id="divResult"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.PasswordFor(model => model.Password, new { @id = "Password", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span class="control-label col-md-2">Nhập lại mật khẩu</span>
+                <div class="col-md-6">
+                    <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "txtName" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @id = "txtAddress" })
+                        @Html.ValidationMessageFor(model => model.Address)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @id = "txtPhone" })
+                        @Html.ValidationMessageFor(model => model.Phone)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "txtEmail", @name = "txtEmail" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Image, new { @id = "txtImage" })
+                        <input type="button" value="Chọn ảnh.." id="btnSelectImage" />
+                    </div>
+                    <img src="@Model.Image" class="fancybox" style="width:30px; height:30px; cursor:pointer;" />
+                </div>
+
+                <div class="row">
+                    <input type="button" id="btnSave" class="btn btn-default" value="Lưu thông tin" />
+                </div>
+        }
+    </div>
+
+</div>

@@ -1,0 +1,86 @@
+﻿@model DataLayer.Framework.Order
+@{
+    ViewBag.Title = "Thanh toán thành công";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+    var cartList = (List<CosmeticMVC.Models.CartItem>)ViewBag.CartSession;
+}
+@section jsHeader{
+    <style>
+    #tr-last {
+    border-bottom:2px dotted #cdcdcd;
+    }
+    </style>
+}
+<div class="content">
+    <div class="form-horizontal">
+        <h2>Thông tin chi tiết đơn hàng</h2>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th colspan="1"><label>Người giao</label></th>
+                    <th colspan="5">@Model.ShipName</th>
+                </tr>
+                <tr>
+                    <th colspan="1"><label>Điện thoại</label></th>
+                    <th colspan="5">@Model.ShipMobile</th>
+                </tr>
+                <tr>
+                    <th colspan="1"><label>Địa chỉ</label></th>
+                    <th colspan="5">@Model.ShipAddress</th>
+                </tr>
+                <tr>
+                    <th><label>Email</label></th>
+                    <th>@Model.ShipEmail</th>
+                </tr>
+
+                <tr>
+                    <th><label>Mã SP</label></th>
+                    <th><label>Tên SP</label></th>
+                    <th><label>Ảnh</label></th>
+                    <th><label>SL</label></th>
+                    <th><label>Đơn giá</label></th>
+                    <th><label>Thành tiền</label></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in cartList)
+                {
+                    <tr>
+                        <td>@item.Product.Id</td>
+                        <td>@item.Product.Name</td>
+                        <td><img src="@item.Product.Image" class="fancybox" style="cursor:pointer; width:25px; height:25px;" /></td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Product.Price.GetValueOrDefault(0).ToString("N0")</td>
+                        <td>@((item.Product.Price.GetValueOrDefault(0) * item.Quantity).ToString("N0"))</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">Thành tiền</td>
+                    <td colspan="2">@Session["amount"]</td>
+                </tr>
+                <tr>
+                    <td colspan="5">Chiết khấu</td>
+                    <td colspan="2">@Session["discount"] %</td>
+                </tr>
+                <tr>
+                    <td colspan="5">Khuyến mãi</td>
+                    <td colspan="2">@Session["promotion"]</td>
+                </tr>
+                <tr>
+                    <td colspan="5">Tổng cộng</td>
+                    <td colspan="2">@Model.Total.Value.ToString("N0")</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="alert alert-success centered">
+            Cám ơn quý khách đã sử dụng dịch vụ của chúng tôi
+        </div>
+
+
+    </div>
+</div>
+

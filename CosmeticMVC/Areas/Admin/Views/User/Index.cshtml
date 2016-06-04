@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/BackendLayout.cshtml";
+}
+@section jsFooter{
+    <script src="/Assets/Admin/js/controller/UserController.js"></script>
+    }
+
+<div class="row">
+    <div class="col-md-12">
+        @{Html.RenderPartial("SearchingForm", new DataLayer.ViewModel.Admin.User.SearchingViewModel());}
+        <div id="userList">
+            @Html.Action("UserList","User",new { area="Admin"})
+        </div>
+    </div>
+</div>

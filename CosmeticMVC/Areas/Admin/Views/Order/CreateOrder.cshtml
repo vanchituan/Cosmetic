@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Lập đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/BackendLayout.cshtml";
+}
+<style>
+    .table-hover tbody tr:hover td, .table tbody tr:hover th {
+        background-color: #428BCA;
+    }
+
+    .table {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+</style>
+
+@section jsFooter{
+    <script src="/Scripts/mustache.js"></script>
+    <script src="/Assets/Admin/js/controller/UserController.js"></script>
+
+    <script src="/Assets/Admin/js/controller/ProductController.js"></script>
+    <script src="/Assets/Admin/js/controller/CustomOrderController.js"></script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6" style="border-right:2px dashed #3883cc;">
+            <!--Thông tin khách hàng-->
+            @{Html.RenderPartial("CreateOrder/InfoCustomer");}
+
+            <!--Các sản phẩm trong giỏ hàng-->
+            @{Html.RenderPartial("CreateOrder/Products/ProductsInCart");}
+        </div>
+
+        <div class="col-md-6">
+            <!-- Bộ lọc sản phẩm-->
+            @{Html.RenderPartial("CreateOrder/Products/SearchingForm", new DataLayer.ViewModel.Admin.Product.SearchingViewModel());}
+
+            <!--Danh sách sản phẩm-->
+            <div id="productList">
+                @Html.Action("ProductListForCustomOrder", "Product", new { area = "Admin" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--popup khách hàng-->
+<div id="modalConfirmYesNo" class="modal fade">
+    @{Html.RenderPartial("CreateOrder/ModalCustomer/ChoosingCustomer");}
+</div>

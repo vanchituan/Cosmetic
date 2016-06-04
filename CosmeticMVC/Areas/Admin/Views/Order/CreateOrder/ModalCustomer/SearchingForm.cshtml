@@ -1,0 +1,81 @@
+﻿@model DataLayer.ViewModel.Admin.User.SearchingViewModel
+@using (Ajax.BeginForm("UserListForCustomOrder", "User", null,
+                                    new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        OnBegin = "Common.user.BeforeSend",
+                                        OnSuccess = "Common.user.SuccessForm",
+                                        UpdateTargetId = "userList",
+                                    }, new { @id = "frmUser", @class = "form-horizontal multiple-controls" }))
+{
+    <div class="panel panel-info">
+        <div class="panel-heading">Bộ lọc</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Id</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.UserId, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Username</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Họ tên</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Email</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Đ/thoại</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="hidden">
+                    @Html.HiddenFor(model => model.PageCurrent)
+                    @Html.HiddenFor(model => model.OrderBy)
+                    @Html.HiddenFor(model => model.SortBy)
+                </div>
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="glyphicon glyphicon-search "></i> &nbsp; Tìm kiếm
+                        </button>
+                        &nbsp;
+                        <button type="reset" class="btn btn-default btn-sm" id="btnDelete">
+                            <i class="glyphicon glyphicon-refresh "></i> &nbsp; Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

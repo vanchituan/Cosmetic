@@ -1,0 +1,33 @@
+﻿@model List<DataLayer.Framework.Promotion>
+@{
+    ViewBag.Title = "Chương trình khuyến mãi";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+}
+
+<div class="content">
+    <div class="section group">
+        <h2>Các chương trình khuyến mãi hiện hành</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>Tên khuyến mãi</td>
+                        <td>Giá trị</td>
+                        <td>Chiết khấu trên hóa đơn</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.PromotionName</td>
+                            <td>@item.Value.Value.ToString("N0")</td>
+                            <td>@item.Discount %</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,21 @@
+﻿.sorter {
+    display: inline-block;
+    width: 9px;
+    float: right;
+    font-size: 9px;
+    margin-top: -1px;
+    color: gray;
+}
+
+    .sorter .glyphicon.active {
+        color: #fff;
+    }
+
+.pointer {
+    cursor: pointer;
+}
+
+.modal .modal-body {
+    max-height: 420px;
+    overflow-y: auto;
+}

@@ -1,0 +1,116 @@
+﻿@model DataLayer.ViewModel.Admin.Product.ListViewModel
+
+<div class="col-md-12">
+    <div class="col-md-6 text-left">
+        Hiện có <strong>@Model.Total</strong> sản phẩm ứng với các điều kiện tìm kiếm
+    </div>
+    <div class="col-md-6">
+        <label class="pull-right control-label">sản phẩm 1 trang</label>
+        <div class="col-md-4 pull-right">
+            <select id="ddlItemsPerPage" class="form-control">
+                <option selected>Mặc định</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+                <option value="35">35</option>
+                <option value="40">40</option>
+                <option value="45">45</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="javascript:Common.product.OrderBy('ProductName',@(Model.OrderBy == "ProductName" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Sản phẩm
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "ProductName" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "ProductName" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>
+                <a href="javascript:Common.product.OrderBy('Quantity',@(Model.OrderBy == "Quantity" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Số lượng
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "Quantity" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "Quantity" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>Ảnh</th>
+            <th>
+                <a href="javascript:Common.product.OrderBy('Price',@(Model.OrderBy == "Price" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Đơn giá
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "Price" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "Price" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>
+                <a href="javascript:Common.product.OrderBy('Status',@(Model.OrderBy == "Status" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Tình trạng
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "Status" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "Status" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+            {
+            <tr id="row_@item.Id">
+
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+                <td><img src="@item.Image" class="fancybox" style="cursor:pointer;width:25px;height:25px;" /></td>
+                <td>@item.Price.Value.ToString("N0")</td>
+                <td><a href="javascript:void(0)" class="btn-active btnStatus" data-id="@item.Id">@Html.Raw(item.Status ? "<strong>Đang bán</strong>" : "Ngừng k.doanh")</a></td>
+                <td>
+                    <a href="/Admin/Product/Edit/@item.Id">Sửa</a>
+                    |
+                    @Ajax.ActionLink("Xoá", "Delete", new { @id = item.Id }, new AjaxOptions
+               {
+                   Confirm = "Bạn có muốn xoá bản ghi này?",
+                   OnComplete = "$('#row_" + @item.Id + "').remove()",
+                   HttpMethod = "Delete"
+               })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Raw(Ajax.Pager(
+            new Options
+            {
+                PageSize = Model.Items.PageSize,
+                TotalItemCount = Model.Items.TotalItemCount,
+                CurrentPage = Model.Items.PageNumber,
+                IsShowControls = true,
+                IsShowFirstLast = true,
+                LimitPage = 7,
+                Link = "javascript:void(0);",
+                OnClick = "Common.product.Paging({0})"
+            },
+            new AjaxOptions
+            {
+                UpdateTargetId = "ProductList",
+                HttpMethod = "POST",
+                OnBegin = "Common.product.BeforeSend",
+                OnSuccess = "Common.product.SuccessForm"
+            }, new { controller = "Product", action = "ProductList", area = "Admin" }));
+
+
+
+

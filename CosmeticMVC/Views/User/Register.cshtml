@@ -1,0 +1,157 @@
+﻿@model CosmeticMVC.Models.RegisterModel
+@using BotDetect.Web.UI.Mvc;
+<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+@{ MvcCaptcha registerCapcha = new MvcCaptcha("registerCapcha");
+    registerCapcha.UserInputClientID = "CaptchaCode";
+    }
+
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "/Views/Shared/_FrontendLayout.cshtml";
+
+}
+
+@section jsFooter{
+    <script src="/Assets/Client/js/jquery.validate.min.js"></script>
+<script src="/Assets/Client/js/additional-methods.min.js"></script>
+<script src="/Assets/Admin/js/plugins/ckfinder/ckfinder.js"></script>
+<script src="/Assets/Admin/js/controller/CKController.js"></script>
+<script src="/Assets/Client/js/controller/ValidateController.js"></script>
+<script src="/Assets/Client/js/controller/UserController.js"></script>
+    }
+
+
+
+<div class="content">
+
+    @using (Html.BeginForm("Register", "User", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Đăng ký thành viên</h4>
+            <hr />
+            <div class="form-group">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @if (ViewBag.Success != null)
+                {
+                    <div class="alert alert-success">@ViewBag.Success</div>
+                }
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @id = "txtUsername", @required = "required" })
+                    <div id="divResult"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @id = "Password", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", @id = "ConfirmPassword", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "txtName", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @id = "txtAddress", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Address)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "txtEmail", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @id = "txtPhone", @required = "required" })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProvinceId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.DropDownList("ProvinceId",new SelectList(new string[] { }), new { @class = "form-control", @id = "ProvinceId" })
+                    @Html.ValidationMessageFor(model => model.ProvinceId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DistrictId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.DropDownList("DistrictId", new SelectList(new string[] { }), new { @class = "form-control", @id = "DistrictId" })
+                    @Html.ValidationMessageFor(model => model.DistrictId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrecinctId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.DropDownList("PrecinctId", new SelectList(new string[] { }), new { @class = "form-control", @id = "PrecinctId" })
+                    @Html.ValidationMessageFor(model => model.PrecinctId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span class="control-label col-md-2">Ảnh</span>
+                <div class="col-md-6">
+                    <input type="text" id="txtImage" class="form-control" required/>
+                    <input type="button" value="Chọn ảnh.." id="btnSelectImage" />
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <span class="control-label col-md-2">Mã xác nhận</span>
+                <div class="col-md-6">
+                    @Html.Captcha(registerCapcha)
+                </div>
+            </div>
+
+            <div>
+                <span class="control-label col-md-2">Nhập mã</span>
+                <div class="col-md-6">
+                    @Html.TextBox("CaptchaCode", null, new { @class = "form-control", @required = "required" })
+                    <span class="status" id="status">@*Chưa kiểm tra*@</span>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+
+            <div class="form-group">
+                <div class="col-md-8 ">
+                    <input id="btnCreate" type="button" value="Thêm" class="btn btn-info" />
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>

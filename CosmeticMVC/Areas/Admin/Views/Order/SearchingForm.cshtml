@@ -1,0 +1,160 @@
+﻿@model DataLayer.ViewModel.Admin.Order.SearchingViewModel
+@using (Ajax.BeginForm("OrderList", "Order", null,
+                                                                    new AjaxOptions
+                                                                    {
+                                                                        HttpMethod = "POST",
+                                                                        OnBegin = "Common.order.BeforeSend",
+                                                                        OnSuccess = "Common.order.SuccessForm",
+                                                                        UpdateTargetId = "orderList",
+                                                                    }, new { @id = "frmOrder", @class = "form-horizontal multiple-controls" }))
+{
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            Bộ lọc
+        </div>
+        <div class="panel-body form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Mã ĐH</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.OrderId, new { @Value = "", @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Ng.nhận</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.ShipName, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Đ/c</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.ShipAddress, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Đ/t</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.ShipMobile, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Email</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.ShipEmail, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Tên KM</label>
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(q => q.PromotionId, Model.PromotionName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Từ ngày</label>
+                            <div class='col-md-8 input-group date' style="padding-right: 16px;padding-left: 13px;">
+                                @Html.TextBoxFor(m => m.FromDate,"{0:dd/MM/yyyy}",new { @type = "text", @class ="form-control"})
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">đến</label>
+                            <div class='col-md-8 input-group date' style="padding-right: 16px;padding-left: 13px;">
+                                @Html.TextBoxFor(m => m.ToDate, "{0:dd/MM/yyyy}", new {@type="text", @class = "form-control" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Trạng thái</label>
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(q => q.StatusId, Model.OrderStatus, new { @class = "form-control ddlStatusName" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Tỉnh</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("ProvinceId", new SelectList(new string[] { }), new { @class = "form-control", @id = "ProvinceId" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Quận</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("DistrictId", new SelectList(new string[] { }), new { @class = "form-control", @id = "DistrictId" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Phường</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("PrecinctId", new SelectList(new string[] { }), new { @class = "form-control", @id = "PrecinctId" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="hidden">
+                    @Html.HiddenFor(model => model.PageCurrent)
+                    @Html.HiddenFor(model => model.OrderBy)
+                    @Html.HiddenFor(model => model.SortBy)
+                    @Html.HiddenFor(model => model.PageSize)
+                </div>
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="glyphicon glyphicon-search "></i> &nbsp; Tìm kiếm
+                        </button>
+
+                        <button type="reset" class="btn btn-default btn-sm" id="btnDelete">
+                            <i class="glyphicon glyphicon-refresh "></i> &nbsp; Refresh
+                        </button>
+
+                        <button type="button" class="btn btn-info btn-cons btn-sm" id="btnExport">
+                            <i class="fa fa-external-link fa-lg"></i> &nbsp; Export Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

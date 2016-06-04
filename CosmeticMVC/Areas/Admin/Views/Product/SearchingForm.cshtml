@@ -1,0 +1,142 @@
+﻿@model DataLayer.ViewModel.Admin.Product.SearchingViewModel
+@using (Ajax.BeginForm("ProductList", "Product", null,
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        OnBegin = "Common.product.BeforeSend",
+                        OnSuccess = "Common.product.SuccessForm",
+                        UpdateTargetId = "ProductList",
+                    }, new { @id = "frmProduct", @class = "form-horizontal multiple-controls" }))
+{
+    <div class="panel panel-primary">
+        <div class="panel-heading">Bộ lọc</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Mã SP</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.ProductId, new { @Value = "", @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Tên SP</label>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Loại</label>
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(m => m.CategoryId, Model.CategoryName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Giá từ</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm txtPrice" />
+                                @Html.HiddenFor(m => m.FromPrice)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Đến</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm txtPrice" />
+                                @Html.HiddenFor(m => m.ToPrice)
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Tình trạng</label>
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(q => q.Status, Model.StatusName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Từ ngày</label>
+                            <div class='col-md-8 input-group date' data-provide="datepicker" style="padding-right: 16px;padding-left: 13px;">
+                                <input type='text' class="form-control txtDate" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Đến</label>
+                            <div class='col-md-8 input-group date' data-provide="datepicker" style="padding-right: 16px;padding-left: 13px;">
+                                <input type='text' class="form-control txtDate" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">SL từ</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm txtQuantity" />
+                                @Html.HiddenFor(m => m.FromQuantity)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4">Đến</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm txtQuantity" />
+                                @Html.HiddenFor(m => m.ToQuantity)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden">
+                    @Html.HiddenFor(model => model.PageCurrent)
+                    @Html.HiddenFor(model => model.OrderBy)
+                    @Html.HiddenFor(model => model.SortBy)
+                    @Html.HiddenFor(model => model.PageSize)
+                </div>
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <a href="/Admin/Product/Create" class="btn btn-info  btn-sm" id="btnAdd">
+                            <i class="fa fa-plus"></i> &nbsp; Thêm mới
+                        </a>
+
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="glyphicon glyphicon-search "></i> &nbsp; Tìm kiếm
+                        </button>
+
+                        <button type="reset" class="btn btn-default btn-sm" id="btnDelete">
+                            <i class="glyphicon glyphicon-refresh "></i> &nbsp; Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

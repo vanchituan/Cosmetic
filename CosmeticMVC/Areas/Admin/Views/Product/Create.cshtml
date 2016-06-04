@@ -1,0 +1,98 @@
+﻿@model DataLayer.Framework.Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/BackendLayout.cshtml";
+}
+
+
+@section jsFooter{
+<script src="/Assets/Admin/js/controller/CKController.js"></script>
+<script src="/Assets/Admin/js/controller/ProductController.js"></script>
+    }
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.Name,  new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(model => model.Description,  new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.Image,  new { @class = "form-control", @id = "txtImage", @required = "required" })
+                <a id="btnSelectImage" href="javascript:void(0)">Chọn ảnh</a>
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Detail,  new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.Quantity,  new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(model => model.CategoryId, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                <div class="checkbox">
+                    @Html.DropDownListFor(model => model.Status, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "Đang kinh doanh"  },
+                       new { value = 1 , text = "Ngừng kinh doanh" }}, "value", "text", 0), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo mới" class="btn btn-default btn-success" />
+            </div>
+        </div>
+    </div>
+}

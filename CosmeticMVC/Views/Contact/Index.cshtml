@@ -1,0 +1,67 @@
+﻿@model DataLayer.Framework.Contact
+@{
+    ViewBag.Title = "Liên hệ";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+}
+
+@section jsFooter{
+    <style>
+        #mapCanvas {
+            height: 600px;
+        }
+    </style>
+    <link href="/Assets/Client/css/site-demos.css" rel="stylesheet" />
+    <script src="/Assets/Client/js/jquery-1.11.3.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="/Assets/Client/js/jquery.maskedinput.1.4.1.js"></script>
+    <script src="/Assets/Client/js/jquery.validate.min.js"></script>
+    <script src="/Assets/Client/js/additional-methods.min.js"></script>
+    <script src="~/Assets/Client/js/controller/ValidateController.js"></script>
+    <script src="/Assets/Client/js/controller/ContactController.js"></script>
+
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <h2>Thông tin liên hệ</h2>
+                @Html.Raw(Model.Content)
+
+                <br />
+                <h2>Gửi thông tin</h2>
+                @using (Html.BeginForm("Send", "Contact", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <label>Họ tên</label>
+                        <input type="text" id="txtName"  class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Điện thoại</label>
+                        <input type="text" id="txtPhone"  class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ</label>
+                        <input type="text" id="txtAddress"  class="form-control" required/>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" id="txtEmail" name="Email" class="form-control" required/>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label>Yêu cầu</label>
+                        <textarea id="txtContent"  class="form-control" required></textarea>
+                    </div>
+                    <button id="btnSend" class="btn btn-success">Gửi đi</button>
+                }
+            </div>
+
+            <div class="col-md-6">
+                <h2>Bản đồ</h2>
+                <div class="map" id="mapCanvas"></div>
+            </div>
+        </div>
+    </div>
+</div>
+

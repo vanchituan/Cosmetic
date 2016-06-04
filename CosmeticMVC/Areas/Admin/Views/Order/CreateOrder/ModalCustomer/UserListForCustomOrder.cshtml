@@ -1,0 +1,66 @@
+﻿@model DataLayer.ViewModel.Admin.User.ListViewModel
+
+<p>Hiện có <strong>@Model.Total</strong> người dùng trong hệ thống</p>
+@Html.Raw(Ajax.Pager(
+            new Options
+            {
+                PageSize = Model.Items.PageSize,
+                TotalItemCount = Model.Items.TotalItemCount,
+                CurrentPage = Model.Items.PageNumber,
+                IsShowControls = true,
+                IsShowFirstLast = true,
+                LimitPage = 7,
+                Link = "javascript:void(0);",
+                OnClick = "Common.user.Paging({0})"
+            },
+            new AjaxOptions
+            {
+                UpdateTargetId = "userList",
+                HttpMethod = "POST",
+                OnBegin = "Common.user.BeforeSend",
+                OnSuccess = "Common.user.SuccessForm"
+            }, new { controller = "User", action = "UserListForCustomOrder", area = "Admin" }))
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                <a href="javascript:Common.user.OrderBy('Name',@(Model.OrderBy == "Name" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Họ tên
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "Name" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "Name" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+
+            <th>Điện thoại</th>
+            <th>Địa chỉ</th>
+            <th>
+                <a href="javascript:Common.user.OrderBy('PromotionName',@(Model.OrderBy == "PromotionName" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Thuộc KM
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "PromotionName" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "PromotionName" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+            {
+            <tr id="row_@item.Id" data-id="@item.Id" data-promotionid ="@item.PromotionId" 
+                class="trUser pointer" data-email="@item.Email" data-provinceid="@item.ProvinceId"
+                data-districtid="@item.DistrictId" data-precinctid="@item.PrecinctId" data-address="@item.Address">
+                <td>@item.CustomerName</td>
+                <td>@item.Mobile</td>
+                <td>@item.FullAddress</td>
+                <td>@item.PromotionName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

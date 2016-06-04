@@ -1,0 +1,92 @@
+﻿@model DataLayer.ViewModel.Admin.User.ListViewModel
+
+<div class="col-md-12">
+    <div class="col-md-6 text-left">
+        Hiện có <strong>@Model.Total</strong> người dùng ứng với các điều kiện tìm kiếm
+    </div>
+    <div class="col-md-6">
+        <label class="pull-right control-label">user 1 trang</label>
+        <div class="col-md-4 pull-right">
+            <select id="ddlItemsPerPage" class="form-control">
+                <option selected>Mặc định</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+                <option value="35">35</option>
+                <option value="40">40</option>
+                <option value="45">45</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="javascript:Common.user.OrderBy('Name',@(Model.OrderBy == "Name" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Họ tên
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "Name" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "Name" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>Điện thoại</th>
+            <th>Địa chỉ</th>
+            <th>
+                <a href="javascript:Common.user.OrderBy('PromotionName',@(Model.OrderBy == "PromotionName" ? "'" + !Model.SortBy + "'" : "false"))" class="table-header">
+                    Thuộc KM
+                    <div class="sorter">
+                        <span class="glyphicon glyphicon-chevron-up @(Model.OrderBy == "PromotionName" && Model.SortBy.Value ? "active" : "")"></span>
+                        <span class="glyphicon glyphicon-chevron-down @(Model.OrderBy == "PromotionName" && !Model.SortBy.Value ? "active" : "")"></span>
+                    </div>
+                </a>
+            </th>
+            <th>#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+            {
+            <tr id="row_@item.Id">
+                <td>@item.CustomerName</td>
+                <td>@item.Mobile</td>
+                <td>@item.FullAddress</td>
+                <td>@item.PromotionName</td>
+                <td>
+                    @Ajax.ActionLink("Xoá", "Delete", new { @id = item.Id }, new AjaxOptions
+                   {
+                       Confirm = "Bạn có muốn xoá bản ghi này?",
+                       OnComplete = "$('#row_" + @item.Id + "').remove()",
+                       HttpMethod = "Delete"
+                   })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Raw(Ajax.Pager(
+            new Options
+            {
+                PageSize = Model.Items.PageSize,
+                TotalItemCount = Model.Items.TotalItemCount,
+                CurrentPage = Model.Items.PageNumber,
+                IsShowControls = true,
+                IsShowFirstLast = true,
+                LimitPage = 7,
+                Link = "javascript:void(0);",
+                OnClick = "Common.user.Paging({0})"
+            },
+            new AjaxOptions
+            {
+                UpdateTargetId = "userList",
+                HttpMethod = "POST",
+                OnBegin = "Common.user.BeforeSend",
+                OnSuccess = "Common.user.SuccessForm"
+            }, new { controller = "User", action = "UserList", area = "Admin" }))
+

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Đơn hàng";
+    Layout = "/Areas/Admin/Views/Shared/BackendLayout.cshtml";
+}
+
+
+@section jsFooter{
+    <script src="/Scripts/mustache.js"></script>
+    <script src="/Assets/Admin/js/controller/OrderController.js"></script>
+
+    <script>
+        if (Common.Empty(Common.order)) {
+            Common.order = new order();
+        }
+        order.Url = new Object();
+        order.Url.GetDetail = '@Url.Action("GetDetail", "Order", new { area = "Admin" })'
+    </script>
+}
+<div class="row" id="non-printable">
+    <div class="col-md-12">
+        @{Html.RenderPartial("SearchingForm", new DataLayer.ViewModel.Admin.Order.SearchingViewModel());}
+
+        <div id="orderList">
+            @Html.Action("OrderList", "Order", new { area = "Admin" })
+        </div>
+    </div>
+</div>
+
+<!--Print preview screen-->
+@{Html.RenderPartial("PrintPreview");}

@@ -1,0 +1,84 @@
+﻿@model DataLayer.Framework.Content
+@{
+    ViewBag.Title = "Chi tiết";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+    var listNewRelated = (List<DataLayer.Framework.Content>)ViewBag.NewRelated;
+    var listOther = (List<DataLayer.Framework.Content>)ViewBag.Other;
+}
+<style>
+    p#content {
+        font-size: 23px;
+        text-align: justify;
+        margin: 30px 0;
+    }
+
+    p#tag {
+    padding:10px;
+    }
+
+    span {
+    margin-right:15px;
+    }
+</style>
+
+<div class="content">
+    <div class="content_top">
+        <div class="heading">
+            <h2 style="font-family:Arial; font-weight:bold; font-size:30px;">@Model.Name</h2>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-9">
+                <p style="margin:20px 0; font-weight:bold; font-size:18px;">
+                    @Model.Description
+                </p>
+                <div style="text-align:center;">
+                    <img src="@Model.Image" />
+                </div>
+                <p id="content">@Html.Raw(Model.Detail)</p>
+                <div class="see"> Ngày đăng : @Model.CreatedDate</div>
+                <div class="clear"></div>
+                <p id="tag">
+                    <span>Từ khóa</span> 
+                    @{
+                        var tags = (List<DataLayer.Framework.Tag>)ViewBag.Tags;
+                        foreach (var tag in tags)
+                        {
+                            <img src="/Assets/Client/images/tag.png" /><a href="/tag/@tag.ID">@tag.Name</a>
+                        }
+                    }
+                </p>
+            </div>
+
+            <div class="col-md-3">
+                <div class="rightsidebar">
+                    <h2>Tin liên quan</h2>
+                    <ul class="list-group">
+                        @foreach (var item in listNewRelated)
+                        {
+                            <li class="list-group-item"><a href='/tin-tuc/@item.CategoryId/@item.MetaTitle'>@item.Name</a></li>
+                        }
+                    </ul>
+
+                    <h2>Tin khác</h2>
+
+                    <ul class="list-group">
+                        @foreach (var item in listOther)
+                        {
+                            var link = "/tin-tuc/" + item.CategoryId+ "/" + item.MetaTitle;
+                            <li class="list-group-item">
+                                <a href="@link"><img src="@item.Image" style="width:200px; height:150px;" /></a>
+                                <p>@item.Name</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

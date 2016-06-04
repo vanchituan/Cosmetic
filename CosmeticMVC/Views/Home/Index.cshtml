@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_FrontendLayout.cshtml";
+    var slides = (List<DataLayer.Framework.Slide>)ViewBag.Slides;
+    var listNewProducts = (List<DataLayer.Framework.Product>)ViewBag.NewProducts;
+    var listFeatureProducts = (List<DataLayer.Framework.Product>)ViewBag.FeatureProducts;
+}
+
+@section slide{
+    <div class="header_slide">
+        <div class="header_bottom_left">
+            <div class="categories">
+                @{Html.RenderAction("ProductCategory", "Product");};
+            </div>
+        </div>
+        <div class="header_bottom_right">
+            <div class="slider">
+                <div id="slider">
+                    <div id="mover">
+                        @foreach (var i in slides)
+                        {
+                            <div class="slide">
+                                <div class="slider-img">
+                                    <a href="@i.Link"><img src="@i.Image" alt="learn more" /></a>
+                                </div>
+                                <div class="slider-text">
+                                    <h1>Giảm giá<br><span>nhẹ</span></h1>
+                                    <h2>UPTo 20% OFF</h2>
+                                    <div class="features_list">
+                                        <h4>Thông tin chi tiết, nhấn nút dưới đoạn text này nhé</h4>
+                                    </div>
+                                    @Html.ActionLink("Mua ngay","Index","Product",null,new { @class="button"})
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+}
+
+<div class="content">
+    <div class="content_top">
+        <div class="heading">
+            <h3>Sản phẩm mới</h3>
+        </div>
+        <div class="see">
+            <p><a href="/san-pham">Xem tất cả</a></p>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="section group">
+        @foreach (var item in listNewProducts)     // xuất ra sản phẩm mới
+        {
+            var url = "/san-pham/" + item.CategoryId + "/" + item.MetaTitle;
+            <div class="grid_1_of_4 images_1_of_4">
+                <a href="@url"><img src="@item.Image" alt="@item.Name" /></a>
+                <h2>@item.Name</h2>
+                <div class="price-details">
+                    <div class="price-number">
+                        <p><span class="rupees">@(item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ")</span></p>
+                    </div>
+                    <div class="add-cart">
+                        <h4><a class="btnChoose" href="javascript:void(0)" data-productid="@item.Id">Thêm vào giỏ</a></h4>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="content_bottom">
+        <div class="heading">
+            <h3>Sản phẩm hot</h3>
+        </div>
+        <div class="see">
+            <p><a href="/san-pham">Xem tất cả</a></p>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="section group">
+        @foreach (var item in listFeatureProducts)     // xuất ra sản phẩm hot
+        {
+            var url = "/san-pham/" + item.CategoryId + "/" + item.MetaTitle;
+            <div class="grid_1_of_4 images_1_of_4">
+                <a href="@url"><img src="@item.Image" alt="@item.Name" /></a>
+                <h2>@item.Name</h2>
+                <div class="price-details">
+                    <div class="price-number">
+                        <p><span class="rupees">@(item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ")</span></p>
+                    </div>
+                    <div class="add-cart">
+                        <h4><a class="btnChoose" href="javascript:void(0)" data-productid="@item.Id">Thêm vào giỏ</a></h4>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
