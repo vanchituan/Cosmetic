@@ -157,6 +157,7 @@
     <Compile Include="ViewModel\Admin\User\PrecinctViewModel.cs" />
     <Compile Include="ViewModel\Admin\User\ProvinceViewModel.cs" />
     <Compile Include="ViewModel\Admin\User\SearchingViewModel.cs" />
+    <Compile Include="ViewModel\Client\Cart\OrderViewModel.cs" />
     <Compile Include="ViewModel\ContentViewModel.cs" />
     <Compile Include="ViewModel\OrderHisViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
@@ -176,9 +177,7 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\Client\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

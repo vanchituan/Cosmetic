@@ -17,7 +17,8 @@ namespace CosmeticMVC
                 "~/Assets/Client/css/jquery-ui.css",
                 "~/Assets/Client/css/style.css",
                 "~/Assets/Client/css/slider.css",
-                "~/Assets/Client/js/plugins/fancybox/jquery.fancybox-1.3.4.css"
+                "~/Assets/Client/js/plugins/fancybox/jquery.fancybox-1.3.4.css",
+                "~/Assets/Client/css/ngan-luong.css"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/jscore").Include(

@@ -93,6 +93,54 @@
             }
         });
 
+        $('input[name="paymentMethod"]').off('click').on('click', function () {
+            if ($(this).val() == 'NL') {
+                $('.boxContent').hide();
+                $('#nganluongContent').show();
+            }
+            else if ($(this).val() == 'ATM_ONLINE') {
+                $('.boxContent').hide();
+                $('#bankContent').show();
+            }
+            else {
+                $('.boxContent').hide();
+            }
+        });
+
+        $('#btnCreatedOrder').off('click').on('click', function () {
+            var orderVm = {
+                ShipName: $('#ShipName').val(),
+                ShipMobile: $('#ShipMobile').val(),
+                ShipEmail: $('#ShipEmail').val(),
+                ShipAddress: $('#ShipAddress').val(),
+                ProvinceId: $('#ProvinceId').val(),
+                DistrictId: $('#DistrictId').val(),
+                PrecinctId: $('#PrecinctId').val(),
+                PaymentMethod: $('input[name="paymentMethod"]:checked').val(),
+                BankCode: $('input[groupname="bankcode"]:checked').prop('id'),
+            }
+            console.log(orderVm);
+            $.ajax({
+                url: '/Cart/Payment',
+                type: 'POST',
+                data: orderVm,
+                success: function (response) {
+                    if (response.status) {
+                        if (response.urlCheckout != undefined && response.urlCheckout != '') {
+                            window.location.href = response.urlCheckout;
+                        }
+                        else {
+                            $('#divMessage').html('Cảm ơn bạn đã đặt hàng thành công. Chúng tôi sẽ liên hệ sớm nhất.');
+                        }
+                    }
+                    else {
+                        $('#divMessage').show();
+                        $('#divMessage').text(response.message);
+                    }
+                }
+            })
+        });
+
     },//end regEvent
     CheckQuantity: function () {
         var result = true;

@@ -10,6 +10,8 @@ using DataLayer.Framework;
 using System.Configuration;
 using CosmeticMVC.Common;
 using Common;
+using CosmeticMVC.Libraries.NganLuongAPI;
+using DataLayer.ViewModel.Client.Cart;
 
 namespace CosmeticMVC.Controllers
 {
@@ -19,6 +21,11 @@ namespace CosmeticMVC.Controllers
         // danh sách các sản phẩm trong giỏ hàng
         private const string CartSession = "CartSession";
         //danh sach cac san pham trong gio hang
+        private string merchantId = "46680";
+        private string merchantPassword = "c86fbc08994c0b05a79d141bd25d3838";
+        private string merchantEmail = "vanchituan@gmail.com";
+
+
         // GET: Cart
         public ActionResult Index()
         {
@@ -142,9 +149,24 @@ namespace CosmeticMVC.Controllers
         }
         
         [HttpPost]
-        public ActionResult Payment(Order order)
+        public ActionResult Payment(OrderViewModel orderVm)
         {
-
+            Order order = new Order();
+            //{
+            //    OrderDate = orderVm.OrderDate,
+            //    CreatedDate = orderVm.CreatedDate,
+            //    CustomerId = orderVm.CustomerId,
+            //    DistrictId = orderVm.DistrictId,
+            //    PrecinctId = orderVm.PrecinctId,
+            //    ProvinceId = orderVm.ProvinceId,
+            //    ShipAddress = orderVm.ShipAddress,
+            //    ShipEmail = orderVm.ShipEmail,
+            //    ShipMobile = orderVm.ShipMobile,
+            //    PromotionId = orderVm.PromotionId,
+            //    ShipName = orderVm.ShipName,
+            //    Status = orderVm.Status
+            //};
+            
             decimal total = 0;// total value of invoice
             int promoID = 0;
             var cart = (List<CartItem>)Session[CartSession];
@@ -177,25 +199,25 @@ namespace CosmeticMVC.Controllers
 
                 // update stock point
                 new UserDao().UpdatePoint(userCurrent.UserID, long.Parse(total.ToString()));
-                order.CustomerId = user.Id;
-                order.PromotionId = promoID;
-                order.Total = total;
-                order.CreatedDate = DateTime.Now;
-                order.ProvinceId = user.ProvinceId;
-                order.DistrictId = user.DistrictId;
-                order.PrecinctId = user.PrecinctId;
-                order.ShipEmail = user.Email;
-                order.ShipMobile = user.Phone;
-                order.ShipAddress = user.Address;
+                orderVm.CustomerId = user.Id;
+                orderVm.PromotionId = promoID;
+                orderVm.Total = total;
+                orderVm.CreatedDate = DateTime.Now;
+                orderVm.ProvinceId = user.ProvinceId;
+                orderVm.DistrictId = user.DistrictId;
+                orderVm.PrecinctId = user.PrecinctId;
+                orderVm.ShipEmail = user.Email;
+                orderVm.ShipMobile = user.Phone;
+                orderVm.ShipAddress = user.Address;
                 Session["idCurrentOrder"] = new OrderDao().Add(order);
 
             }
             else //purchase don't get to accumulate
             {
-                order.CustomerId = 0;
-                order.PromotionId = promoID;
-                order.Total = total;
-                order.CreatedDate = DateTime.Now;
+                orderVm.CustomerId = 0;
+                orderVm.PromotionId = promoID;
+                orderVm.Total = total;
+                orderVm.CreatedDate = DateTime.Now;
                 Session["idCurrentOrder"] = new OrderDao().Add(order);
             }
             foreach (var item in cart)
@@ -205,7 +227,73 @@ namespace CosmeticMVC.Controllers
 
             }
 
-            return RedirectToAction("Success");
+            RequestInfo info = new RequestInfo();
+            info.Merchant_id = merchantId;
+            info.Merchant_password = merchantPassword;
+            info.Receiver_email = merchantEmail;
+
+
+
+            info.cur_code = "vnd";
+            info.bank_code = orderVm.BankCode;
+
+            info.Order_code = order.Id.ToString();
+            info.Total_amount = total.ToString();
+            info.fee_shipping = "0";
+            info.Discount_amount = "0";
+            info.order_description = "Thanh toán đơn hàng tại online shop";
+
+            info.return_url = "xac-nhan-don-hang";
+            info.cancel_url = "huy-don-hang";
+
+            info.Buyer_fullname = order.ShipName;
+            info.Buyer_email = "vanngoctu1112@gmail.com";
+            info.Buyer_mobile = order.ShipMobile;
+
+            APICheckoutV3 objNLChecout = new APICheckoutV3();
+            ResponseInfo result = objNLChecout.GetUrlCheckout(info, orderVm.PaymentMethod);
+            if (result.Error_code == "00")
+            {
+                return Json(new
+                {
+                    status = true,
+                    urlCheckout = result.Checkout_url,
+                    message = result.Description
+                });
+            }
+            else
+                return Json(new
+                {
+                    status = false,
+                    message = result.Description
+                });
+        }
+
+        public ActionResult CancelOrder()
+        {
+            return View();
+        }
+
+        public ActionResult ConfirmOrder()
+        {
+            string token = Request["token"];
+            RequestCheckOrder info = new RequestCheckOrder();
+            info.Merchant_id = merchantId;
+            info.Merchant_password = merchantPassword;
+            info.Token = token;
+            APICheckoutV3 objNLChecout = new APICheckoutV3();
+            ResponseCheckOrder result = objNLChecout.GetTransactionDetail(info);
+            if (result.errorCode == "00")
+            {
+                ViewBag.IsSuccess = true;
+                ViewBag.Result = "Thanh toán thành công. Chúng tôi sẽ liên hệ lại sớm nhất.";
+            }
+            else
+            {
+                ViewBag.IsSuccess = true;
+                ViewBag.Result = "Có lỗi xảy ra. Vui lòng liên hệ admin.";
+            }
+            return View();
         }
 
         public ActionResult Success()

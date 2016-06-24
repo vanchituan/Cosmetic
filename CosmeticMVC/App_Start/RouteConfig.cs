@@ -16,15 +16,6 @@ namespace CosmeticMVC
             routes.IgnoreRoute("{*botdetect}",
       new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
 
-            //  he thong
-            //routes.MapRoute(
-            //    name: "System",
-            //    url: "he-thong",
-            //    defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional },
-            //    namespaces: new[] { "CosmeticMVC.Areas.Admin.Controllers" }
-            //);
-
-
 
             //  giới thiệu
             routes.MapRoute(
@@ -184,6 +175,23 @@ namespace CosmeticMVC
                 name: "Payment",
                 url: "thanh-toan",
                 defaults: new { controller = "Cart", action = "Payment", id = UrlParameter.Optional },
+                namespaces: new[] { "CosmeticMVC.Controllers" }
+            );
+
+            //huy don hang tu Ngan Luong
+            routes.MapRoute(
+                name: "Cancel Order",
+                url: "huy-don-hang",
+                defaults: new { controller = "Cart", action = "CancelOrder", id = UrlParameter.Optional },
+                namespaces: new[] { "CosmeticMVC.Controllers" }
+            );
+
+
+            //Xac nhan thanh toan don hang tu ngan luong
+            routes.MapRoute(
+                name: "Confirm Order",
+                url: "xac-nhan-don-hang",
+                defaults: new { controller = "Cart", action = "ConfirmOrder", id = UrlParameter.Optional },
                 namespaces: new[] { "CosmeticMVC.Controllers" }
             );
 
