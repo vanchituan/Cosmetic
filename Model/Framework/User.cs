@@ -9,7 +9,7 @@ namespace DataLayer.Framework
     [Table("User")]
     public partial class User
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [StringLength(50)]

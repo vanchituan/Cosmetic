@@ -74,7 +74,7 @@
             var id = $(this).val();
             if (id != '') {
                 Common.loadDistrict(parseInt(id), '');
-                Common.user.SubmitForm();
+                //Common.user.SubmitForm();
             }
             else {
                 $('#DistrictId').html('');
@@ -86,7 +86,7 @@
             var provinceId = $('#ProvinceId').val();
             if (districtId != '' && provinceId != '') {
                 Common.loadPrecinct(parseInt(provinceId), parseInt(districtId), '');
-                Common.user.SubmitForm();
+                //Common.user.SubmitForm();
             }
             else {
                 $('#DistrictId').html('');
@@ -119,13 +119,14 @@
                 PaymentMethod: $('input[name="paymentMethod"]:checked').val(),
                 BankCode: $('input[groupname="bankcode"]:checked').prop('id'),
             }
-            console.log(orderVm);
+
             $.ajax({
                 url: '/Cart/Payment',
                 type: 'POST',
                 data: orderVm,
                 success: function (response) {
-                    if (response.status) {
+                    debugger;
+                    if (response.status && response.viaNganLuong) {
                         if (response.urlCheckout != undefined && response.urlCheckout != '') {
                             window.location.href = response.urlCheckout;
                         }
@@ -133,9 +134,12 @@
                             $('#divMessage').html('Cảm ơn bạn đã đặt hàng thành công. Chúng tôi sẽ liên hệ sớm nhất.');
                         }
                     }
-                    else {
+                    else if (!response.status && response.viaNganLuong) {
                         $('#divMessage').show();
                         $('#divMessage').text(response.message);
+                    }
+                    else {
+                        window.location.href = '/hoan-thanh';
                     }
                 }
             })

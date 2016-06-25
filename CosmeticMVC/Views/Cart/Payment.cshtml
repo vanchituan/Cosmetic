@@ -64,12 +64,7 @@
         }
     </div>
     <div class="section group">
-
-        @using (Html.BeginForm("Payment", "Cart", FormMethod.Post))
-            {
             <div class="form-horizontal">
-
-                
                 <div class="form-group">
                     <label class="control-label col-md-2">Người nhận</label>
                     <div class="col-md-6">
@@ -121,10 +116,11 @@
                         </div>
                     </div>
                 }
+
                 <div class="form-group">
                     <label><input type="radio" id="rdoCash" name="paymentMethod" value="CASH" checked="checked" />Thanh toán khi nhận hàng</label>
                     <label><input type="radio" id="rdoNL" name="paymentMethod" value="NL" /> TK Ngân Lượng</label>
-                    <label><input type="radio" id="rdoBank" value="ATM_ONLINE" name="paymentMethod" /> Thẻ Ngân hàng</label>
+                    <label><input type="radio" id="rdoBank" name="paymentMethod" value="ATM_ONLINE"  /> Thẻ Ngân hàng</label>
                     
                     <div class="clearfix"></div>
                     <div style="margin-top:20px;">
@@ -324,9 +320,6 @@
                 <div class="row top-buffer">
                     <button id="btnCreatedOrder" type="button" class="btn btn-info">Gửi đơn hàng</button>
                 </div>
-
-
             </div>
-        }
     </div>
 </div>

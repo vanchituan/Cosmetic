@@ -182,28 +182,16 @@ namespace CosmeticMVC.Controllers
             return View(model);
         }
 
-        //[HttpPost]
+        [HttpPost]
         //[CaptchaValidation("CaptchaCode", "registerCapcha", "Mã xác nhận không đúng!")]
-        public JsonResult Register(string username,string password,string name,string email,string address,string phone,string image,int province,int district)
+        public JsonResult Register(User user)
         {
             if (ModelState.IsValid)
             {
-                DataLayer.Framework.User user = new DataLayer.Framework.User()
-                {
-                   UserName = username,
-                   Password = password,
-                   Name = name,
-                   Phone = phone,
-                   Email = email,
-                   Address = address,
-                   CreatedDate = DateTime.Now,
-                   Image = image,
-                   Point = 0,
-                   GroupId ="MEMBER",
-                   Status = false,
-                   DistrictId = district,
-                   ProvinceId = province
-                };
+                user.GroupId = "MEMBER";
+                user.Status = false;
+                user.CreatedDate = DateTime.Now;
+                user.Point = 0;
                 var result = new UserDao().Insert(user);
                 Session["CurrentReg"] = user;
             }

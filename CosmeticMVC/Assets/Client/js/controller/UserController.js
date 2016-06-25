@@ -99,7 +99,7 @@ client.prototype = {
             var id = $(this).val();
             if (id != '') {
                 Common.loadDistrict(parseInt(id), '');
-                Common.user.SubmitForm();
+                //Common.user.SubmitForm();
             }
             else {
                 $('#DistrictId').html('');
@@ -111,7 +111,7 @@ client.prototype = {
             var provinceId = $('#ProvinceId').val();
             if (districtId != '' && provinceId != '') {
                 Common.loadPrecinct(parseInt(provinceId), parseInt(districtId), '');
-                Common.user.SubmitForm();
+                //Common.user.SubmitForm();
             }
             else {
                 $('#DistrictId').html('');
@@ -121,21 +121,24 @@ client.prototype = {
 
 
     FuncCreate: function () {
+        var user = {
+            UserName: $('#txtUsername').val(),
+            Password: $('#Password').val(),
+            Name: $('#txtName').val(),
+            Email: $('#txtEmail').val(),
+            Address : $('#txtAddress').val(),
+            Phone: $('#txtPhone').val(),
+            Image: $('#txtImage').val(),
+            ProvinceId: $('#ProvinceId').val(),
+            DistrictId: $('#DistrictId').val(),
+            PrecinctId: $('#PrecinctId').val()
+        }
+
         $.ajax({
             url: '/User/Register',
             type: 'POST',
             dataType: 'json',
-            data: {
-                clientname: $('#txtUsername').val(),
-                password: $('#Password').val(),
-                name: $('#txtName').val(),
-                email: $('#txtEmail').val(),
-                address: $('#txtAddress').val(),
-                phone: $('#txtPhone').val(),
-                image: $('#txtImage').val(),
-                province: $('#ddlProvince').val(),
-                district: $('#ddlDistrict').val()
-            },
+            data: user,
             success: function (response) {
                 if (response.status == true) {
                     window.location.href = '/xac-nhan';

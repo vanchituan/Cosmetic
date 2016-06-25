@@ -21,9 +21,10 @@ namespace CosmeticMVC.Controllers
         // danh sách các sản phẩm trong giỏ hàng
         private const string CartSession = "CartSession";
         //danh sach cac san pham trong gio hang
-        private string merchantId = "46680";
-        private string merchantPassword = "c86fbc08994c0b05a79d141bd25d3838";
-        private string merchantEmail = "vanchituan@gmail.com";
+        private string merchantId = ConfigurationManager.AppSettings["MerchantId"];
+        private string merchantPassword = ConfigurationManager.AppSettings["MerchantPassword"];
+        private string merchantEmail = ConfigurationManager.AppSettings["MerchantEmail"];
+        private string currentLink = ConfigurationManager.AppSettings["CurrentLink"];
 
 
         // GET: Cart
@@ -147,29 +148,15 @@ namespace CosmeticMVC.Controllers
             ViewBag.list = list;
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult Payment(OrderViewModel orderVm)
         {
             Order order = new Order();
-            //{
-            //    OrderDate = orderVm.OrderDate,
-            //    CreatedDate = orderVm.CreatedDate,
-            //    CustomerId = orderVm.CustomerId,
-            //    DistrictId = orderVm.DistrictId,
-            //    PrecinctId = orderVm.PrecinctId,
-            //    ProvinceId = orderVm.ProvinceId,
-            //    ShipAddress = orderVm.ShipAddress,
-            //    ShipEmail = orderVm.ShipEmail,
-            //    ShipMobile = orderVm.ShipMobile,
-            //    PromotionId = orderVm.PromotionId,
-            //    ShipName = orderVm.ShipName,
-            //    Status = orderVm.Status
-            //};
-            
             decimal total = 0;// total value of invoice
             int promoID = 0;
             var cart = (List<CartItem>)Session[CartSession];
+            UserLogin userCurrent;
 
             foreach (var x in cart)
             {
@@ -179,7 +166,7 @@ namespace CosmeticMVC.Controllers
             Session["amount"] = total.ToString("N0");
             if (Session[CommonConstant.UserSession] != null)    //purchase get to accumulate
             {
-                var userCurrent = (UserLogin)Session[CommonConstant.UserSession];
+                userCurrent = (UserLogin)Session[CommonConstant.UserSession];
                 var user = new UserDao().GetByID(userCurrent.UserID);
                 var point = user.Point;
 
@@ -199,74 +186,89 @@ namespace CosmeticMVC.Controllers
 
                 // update stock point
                 new UserDao().UpdatePoint(userCurrent.UserID, long.Parse(total.ToString()));
-                orderVm.CustomerId = user.Id;
-                orderVm.PromotionId = promoID;
-                orderVm.Total = total;
-                orderVm.CreatedDate = DateTime.Now;
-                orderVm.ProvinceId = user.ProvinceId;
-                orderVm.DistrictId = user.DistrictId;
-                orderVm.PrecinctId = user.PrecinctId;
-                orderVm.ShipEmail = user.Email;
-                orderVm.ShipMobile = user.Phone;
-                orderVm.ShipAddress = user.Address;
+                order.CustomerId = user.Id;
+                order.PromotionId = promoID;
+                order.Total = total;
+                order.CreatedDate = DateTime.Now;
+                order.ProvinceId = user.ProvinceId;
+                order.DistrictId = user.DistrictId;
+                order.PrecinctId = user.PrecinctId;
+                order.ShipEmail = user.Email;
+                order.ShipMobile = user.Phone;
+                order.ShipAddress = user.Address;
+                order.ShipName = orderVm.ShipName;
                 Session["idCurrentOrder"] = new OrderDao().Add(order);
 
             }
             else //purchase don't get to accumulate
             {
-                orderVm.CustomerId = 0;
-                orderVm.PromotionId = promoID;
-                orderVm.Total = total;
-                orderVm.CreatedDate = DateTime.Now;
+                order.CustomerId = 0;
+                order.PromotionId = promoID;
+                order.Total = total;
+                order.CreatedDate = DateTime.Now;
+                order.ProvinceId = orderVm.ProvinceId;
+                order.DistrictId = orderVm.DistrictId;
+                order.PrecinctId = orderVm.PrecinctId;
+                order.ShipAddress = orderVm.ShipAddress;
+                order.ShipEmail = orderVm.ShipEmail;
+                order.ShipMobile = orderVm.ShipMobile;
+                order.ShipName = orderVm.ShipName;
                 Session["idCurrentOrder"] = new OrderDao().Add(order);
             }
             foreach (var item in cart)
             {
                 new ProductDao().UpdateQuantity(item.Product.Id, item.Quantity);
                 new OrderDetailDao().Add(int.Parse(Session["idCurrentOrder"].ToString()), item.Product.Id, item.Quantity);
-
             }
 
-            RequestInfo info = new RequestInfo();
-            info.Merchant_id = merchantId;
-            info.Merchant_password = merchantPassword;
-            info.Receiver_email = merchantEmail;
-
-
-
-            info.cur_code = "vnd";
-            info.bank_code = orderVm.BankCode;
-
-            info.Order_code = order.Id.ToString();
-            info.Total_amount = total.ToString();
-            info.fee_shipping = "0";
-            info.Discount_amount = "0";
-            info.order_description = "Thanh toán đơn hàng tại online shop";
-
-            info.return_url = "xac-nhan-don-hang";
-            info.cancel_url = "huy-don-hang";
-
-            info.Buyer_fullname = order.ShipName;
-            info.Buyer_email = "vanngoctu1112@gmail.com";
-            info.Buyer_mobile = order.ShipMobile;
-
-            APICheckoutV3 objNLChecout = new APICheckoutV3();
-            ResponseInfo result = objNLChecout.GetUrlCheckout(info, orderVm.PaymentMethod);
-            if (result.Error_code == "00")
+            #region integrated NL
+            if (orderVm.PaymentMethod == "ATM_ONLINE" || orderVm.PaymentMethod == "NL")
             {
-                return Json(new
+
+                RequestInfo info = new RequestInfo();
+
+                info.Merchant_id = merchantId;
+                info.Merchant_password = merchantPassword;
+                info.Receiver_email = merchantEmail;
+                info.cur_code = "vnd";
+                info.bank_code = orderVm.BankCode;
+                info.Order_code = order.Id.ToString();
+                info.Total_amount = total.ToString();
+                info.fee_shipping = "0";
+                info.Discount_amount = "0";
+                info.order_description = "Thanh toán đơn hàng tại online shop";
+                info.return_url = currentLink + "xac-nhan-don-hang";
+                info.cancel_url = currentLink + "huy-don-hang";
+                info.Buyer_fullname = orderVm.ShipName ?? order.ShipName;
+                info.Buyer_email = orderVm.ShipEmail ?? order.ShipEmail;
+                info.Buyer_mobile = orderVm.ShipMobile ?? order.ShipMobile;
+
+                APICheckoutV3 objNLChecout = new APICheckoutV3();
+                ResponseInfo result = objNLChecout.GetUrlCheckout(info, orderVm.PaymentMethod);
+                if (result.Error_code == "00")
                 {
-                    status = true,
-                    urlCheckout = result.Checkout_url,
-                    message = result.Description
-                });
+                    return Json(new
+                    {
+                        viaNganLuong = true,
+                        status = true,
+                        urlCheckout = result.Checkout_url,
+                        message = result.Description
+                    });
+                }
+                else
+                    return Json(new
+                    {
+                        viaNganLuong = true,
+                        status = false,
+                        message = result.Description
+                    });
             }
-            else
-                return Json(new
-                {
-                    status = false,
-                    message = result.Description
-                });
+            #endregion
+
+            return Json(new
+            {
+                viaNganLuong = false
+            });
         }
 
         public ActionResult CancelOrder()
@@ -285,6 +287,7 @@ namespace CosmeticMVC.Controllers
             ResponseCheckOrder result = objNLChecout.GetTransactionDetail(info);
             if (result.errorCode == "00")
             {
+                SuccessPurchase();
                 ViewBag.IsSuccess = true;
                 ViewBag.Result = "Thanh toán thành công. Chúng tôi sẽ liên hệ lại sớm nhất.";
             }
@@ -298,9 +301,7 @@ namespace CosmeticMVC.Controllers
 
         public ActionResult Success()
         {
-            var model = db.Orders.Find(int.Parse(Session["idCurrentOrder"].ToString()));
-            ViewBag.CartSession = Session[CartSession];
-            Session[CartSession] = null;
+            var model = SuccessPurchase();
             return View(model);
         }
 
@@ -308,6 +309,14 @@ namespace CosmeticMVC.Controllers
         public ActionResult ConfirmBox()
         {
             return PartialView();
+        }
+
+        private Order SuccessPurchase()
+        {
+            var model = db.Orders.Find(int.Parse(Session["idCurrentOrder"].ToString()));
+            ViewBag.CartSession = Session[CartSession];
+            Session[CartSession] = null;
+            return model;
         }
     }
 }

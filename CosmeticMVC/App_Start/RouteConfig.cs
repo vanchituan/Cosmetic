@@ -15,7 +15,7 @@ namespace CosmeticMVC
 
             routes.IgnoreRoute("{*botdetect}",
       new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
-
+            
 
             //  giới thiệu
             routes.MapRoute(
