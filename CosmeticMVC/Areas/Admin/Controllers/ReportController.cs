@@ -18,8 +18,8 @@ namespace CosmeticMVC.Areas.Admin.Controllers
         {
             var model = new ReportChartViewModel
             {
-                FromDate = DateTime.Now.AddMonths(-1).Date,
-                ToDate = DateTime.Now.AddMonths(7).Date
+                FromDate = DateTime.Now.AddMonths(-6).Date,
+                ToDate = DateTime.Now.Date
             };
 
             return View(model);

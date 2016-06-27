@@ -44,8 +44,18 @@ namespace CosmeticMVC
             var session = (UserLogin)Session[CommonConstant.UserSession];
             if (session == null)
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
-                { controller = "User", action = "Login",area=""}));
+                //filterContext.Result = new RedirectToRouteResult
+                //    (new RouteValueDictionary(new
+                //{ controller = "User", action = "Login",area=""}));
+
+                var obj = new
+                {
+                    controller = "User",
+                    action = "Login",
+                    area = ""
+                };
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(obj));
+
             }
             base.OnActionExecuting(filterContext);
         }
